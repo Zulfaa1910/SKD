@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Caesar Cipher Encryption/Decryption</title>
+ <style>
+ /* CSS untuk mengatur tampilan halaman */
+ body {
+     font-family: Arial, sans-serif;
+     text-align: center;
+     background-color: #f0f0f0;
+     margin: 0;
+     padding: 0;
+ }
+
+ h1 {
+     color: #333;
+ }
+
+ label {
+     font-weight: bold;
+     margin-top: 10px;
+     display: block;
+ }
+
+ textarea, input[type="number"] {
+     width: 70%; /* Mengurangi ukuran kolom teks dan input menjadi 70% lebar */
+     padding: 10px;
+     margin: 5px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     resize: none;
+ }
+
+ button {
+     padding: 10px 20px;
+     background-color: #007bff;
+     color: #fff;
+     border: none;
+     cursor: pointer;
+     margin-top: 10px;
+ }
+
+ button:hover {
+     background-color: #0056b3;
+ }
+
+ textarea[readonly] {
+     background-color: #f0f0f0;
+     cursor: not-allowed;
+ }
+ </style>
+</head>
+<body>
+ <h1>Caesar Cipher Encryption/Decryption</h1>
+
+ <!-- Label dan textarea untuk memasukkan teks plainteks -->
+ <label for="message">Plaintext:</label>
+ <textarea id="message" rows="4" cols="30"></textarea>
+
+ <!-- Label dan input untuk memasukkan kunci pergeseran -->
+ <label for="shift">Shift Key:</label>
+ <input type="number" id="shift" min="1" max="25" style="width: 30%;"> <!-- Mengurangi ukuran input menjadi 30% lebar -->
+
+ <!-- Tombol untuk mengenkripsi dan mendekripsi -->
+ <button onclick="encrypt()">Encrypt</button>
+ <button onclick="decrypt()">Decrypt</button>
+
+ <!-- Label dan textarea untuk menampilkan hasil -->
+ <label for="result">Result:</label>
+ <textarea id="result" rows="4" cols="30" readonly></textarea>
+
+ <script>
+ // Fungsi enkripsi teks menggunakan Caesar Cipher
+ function caesarEncrypt(plaintext, shift) {
+ let ciphertext = "";
+ for (let i = 0; i < plaintext.length; i++) {
+ let char = plaintext[i];
+ if (char.match(/[a-z]/i)) {
+ let isUpperCase = char === char.toUpperCase();
+ char = char.toLowerCase();
+ let charCode = char.charCodeAt(0);
+ charCode = ((charCode - 97 + shift) % 26) + 97;
+ if (isUpperCase) {
+ charCode = charCode - 32; // Mengembalikan ke huruf besar
+ }
+ ciphertext += String.fromCharCode(charCode);
+ } else {
+ ciphertext += char;
+ }
+ }
+ return ciphertext;
+ }
+ // Fungsi dekripsi teks menggunakan Caesar Cipher
+ function caesarDecrypt(ciphertext, shift) {
+ return caesarEncrypt(ciphertext, 26 - shift);
+ }
+ // Fungsi untuk mengenkripsi teks saat tombol "Encrypt" ditekan
+ function encrypt() {
+ let message = document.getElementById("message").value;
+ let shift = parseInt(document.getElementById("shift").value);
+ let result = caesarEncrypt(message, shift);
+ document.getElementById("result").value = result;
+ }
+ // Fungsi untuk mendekripsi teks saat tombol "Decrypt" ditekan
+ function decrypt() {
+ let message = document.getElementById("message").value;
+ let shift = parseInt(document.getElementById("shift").value);
+ let result = caesarDecrypt(message, shift);
+ document.getElementById("result").value = result;
+ }
+ </script>
+</body>
+</html>
